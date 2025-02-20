@@ -28,6 +28,18 @@ pred do_something_else {
   Trash' = Trash
 }
 
+pred deleteFromTrash [f : File] {
+  f in Trash
+  Trash' = Trash - f
+  File' = File - f
+}
+
+pred deleteNotFromTrash [f : File] {
+  not (f in Trash)
+  Trash' = Trash
+  File' = File - f
+}
+
 assert restore_after_delete {
   always (all f : File | restore[f] implies once delete[f])
 }
